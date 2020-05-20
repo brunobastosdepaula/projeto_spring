@@ -1,15 +1,22 @@
 package com.curso.projeto_spring.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 
 @Entity
+@Table(name = "tb_user")
 public class User implements Serializable{
 	private static final long serialVersionUID = 1L;
 
@@ -19,18 +26,23 @@ public class User implements Serializable{
 	private String name;
 	private String email;
 	private String phone;
-	private String passwork;
+	private String password;
+	
+	
+	@OneToMany(mappedBy = "client")
+	@JsonIgnore
+	private List<Order> orders = new ArrayList<Order>();
 
 	public User() {
 	}
 
-	public User(Long id, String name, String email, String phone, String passwork) {
+	public User(Long id, String name, String email, String phone, String password) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.email = email;
 		this.phone = phone;
-		this.passwork = passwork;
+		this.password = password;
 	}
 
 	public Long getId() {
@@ -66,11 +78,19 @@ public class User implements Serializable{
 	}
 
 	public String getPasswork() {
-		return passwork;
+		return password;
 	}
 
-	public void setPasswork(String passwork) {
-		this.passwork = passwork;
+	public void setPasswork(String password) {
+		this.password = password;
+	}
+	
+	public List<Order> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
 	}
 
 	@Override
